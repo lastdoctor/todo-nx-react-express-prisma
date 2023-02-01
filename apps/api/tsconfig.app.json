@@ -2,7 +2,11 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "../../dist/out-tsc",
-    "module": "commonjs",
+    "pretty": true,
+    "module": "ES2022",
+    "target": "ES2022",
+    "moduleResolution": "NodeNext",
+    "lib": ["ESNext"],
     "types": ["node", "express"]
   },
   "exclude": ["jest.config.ts", "**/*.spec.ts", "**/*.test.ts"],

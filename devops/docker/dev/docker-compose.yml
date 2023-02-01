@@ -1,0 +1,19 @@
+version: "3.9"
+
+services:
+  database:
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+    image: postgres:15.1-alpine
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./db/postgres-data:/var/lib/postgresql/data
+    networks:
+      - todo
+
+networks:
+  todo:
+    name: todo
