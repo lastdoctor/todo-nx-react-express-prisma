@@ -1,14 +1,14 @@
 const { ConnectionString } = require("connection-string");
 const cs = new ConnectionString(
-  process.env.SERVER_POSTGRES_URL || process.env.DATABASE_URL
+  process.env.ROOT_POSTGRES_URL || 'postgres://postgres:postgres@localhost:5432/postgres?schema=public'
 );
 const {
   user: USERNAME,
   password: PASSWORD,
   HOST = cs.host,
-  DATABASE = cs.path && cs.path.at(0),
-  SCHEMA = cs.params && cs.params.schema,
-  SCHEMAS = cs.params && cs.params.schemas,
+  DATABASE = cs.path && cs.path.at(0) || 'postgtes',
+  SCHEMA = cs.params && cs.params.schema || 'public',
+  SCHEMAS = cs.params && cs.params.schemas || 'public',
 } = cs;
 
 module.exports = {
