@@ -1,4 +1,4 @@
-const { ConnectionString } = require("connection-string");
+const {ConnectionString} = require("connection-string");
 const cs = new ConnectionString(
   process.env.ROOT_POSTGRES_URL || 'postgres://postgres:postgres@localhost:5432/postgres?schema=public'
 );
@@ -6,7 +6,7 @@ const {
   user: USERNAME,
   password: PASSWORD,
   HOST = cs.host,
-  DATABASE = cs.path && cs.path.at(0) || 'postgtes',
+  DATABASE = cs.path && cs.path.at(0) || 'postgres',
   SCHEMA = cs.params && cs.params.schema || 'public',
   SCHEMAS = cs.params && cs.params.schemas || 'public',
 } = cs;
@@ -26,7 +26,7 @@ module.exports = {
   env: {
     JAVA_ARGS: "-Djava.util.logging.config.file=./conf/logging.properties",
   },
-  version: "6.3.2", // optional, empty or missing will download the latest
+  version: "9.14.1", // optional, empty or missing will download the latest
   mavinPlugins: [
     {
       // optional, use to add any plugins (ie. logging)
