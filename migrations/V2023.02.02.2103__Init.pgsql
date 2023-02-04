@@ -1,16 +1,30 @@
-create table users
+CREATE EXTENSION pg_trgm;
+
+CREATE EXTENSION btree_gin;
+
+CREATE TABLE IF NOT EXISTS "Users"
 (
-    id    serial unique not null,
-    name  varchar(255)  not null,
-    email varchar(255)  not null
+    id       SERIAL       NOT NULL,
+    name     VARCHAR(255) NOT NULL,
+    password VARCHAR      NOT NULL,
+    email    VARCHAR(255) NOT NULL,
+    CONSTRAINT "PK_USERS" PRIMARY KEY (id)
 );
 
-create type task_status as enum ('OPEN', 'IN_PROGRESS', 'DONE');
+CREATE INDEX IF NOT EXISTS "IDX_USERS__NAME" ON "Users" (name);
 
-create table tasks
+CREATE TYPE "TaskStatus" AS ENUM ('OPEN', 'IN_PROGRESS', 'DONE');
+
+CREATE TABLE IF NOT EXISTS "Tasks"
 (
-    id          serial unique              not null,
-    title       text                       not null,
-    description text                       not null,
-    status      task_status default 'OPEN' not null
+    id          SERIAL                      NOT NULL,
+    title       TEXT                        NOT NULL,
+    description TEXT                        NOT NULL,
+    status      "TaskStatus" DEFAULT 'OPEN' NOT NULL,
+    userId      INTEGER                     NOT NULL,
+    CONSTRAINT "PK_TASKS" PRIMARY KEY (id),
+    CONSTRAINT "FK_TASKS__USER_ID" FOREIGN KEY (userId) REFERENCES "Users" ON DELETE CASCADE
 );
+
+CREATE INDEX IF NOT EXISTS "IDX_TASKS__TITLE" ON "Tasks" USING gin (title);
+CREATE INDEX IF NOT EXISTS "IDX_TASKS__DESCRIPTION" ON "Tasks" USING gin (description);
