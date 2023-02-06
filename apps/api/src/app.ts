@@ -12,16 +12,18 @@ export class App {
 
   build() {
     try {
+      console.log(join(__dirname, 'controllers'),);
       this.register();
+      return this;
     } catch (e: unknown) {
       this.app.log.error(e);
-      throw new Error('Failed to build app');
+      throw new Error('Failed to build app', { cause: e });
     }
   }
 
   async start(): Promise<App> {
     try {
-      await this.app.listen();
+      await this.app.listen({ port: 3333 });
       this.app.log.info('Api started successfully');
 
       return this;

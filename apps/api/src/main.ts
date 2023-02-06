@@ -1,3 +1,3 @@
 import { App } from './app';
 
-new App({ logger: true }).start();
+new App({ logger: true }).build().start();
