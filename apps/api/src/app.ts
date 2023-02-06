@@ -1,6 +1,7 @@
 import fastify, { FastifyInstance, FastifyServerOptions } from 'fastify';
 import { join } from 'node:path';
 import fastifyFormbody from '@fastify/formbody';
+import fastifyAutoload from '@fastify/autoload';
 
 export class App {
   private readonly app: FastifyInstance;
@@ -11,7 +12,7 @@ export class App {
 
   build() {
     try {
-      this.
+      this.register();
     } catch (e: unknown) {
       this.app.log.error(e);
       throw new Error('Failed to build app');
@@ -33,16 +34,11 @@ export class App {
 
   private register(): void {
     this.app.register(fastifyFormbody);
-    this.server.register(fastifyAutoload, {
-      /* eslint-disable-next-line unicorn/prefer-module */
-      dir: join(__dirname, 'components'),
+    this.app.register(fastifyAutoload, {
+      dir: join(__dirname, 'controllers'),
       dirNameRoutePrefix: false,
       ignorePattern: /.*(?!route|schemas)\.ts|\.js$/u,
       indexPattern: /.*route|schemas(\.ts|\.js)$/u,
     });
-      rejectUnauthorized: false,
-    });
-    this.server.register(fastifyCors);
-    this.server.register(fastifyHelmet);
   }
 }
